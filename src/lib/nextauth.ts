@@ -2,6 +2,7 @@ import {
   DefaultSession,
   NextAuthOptions,
 } from '../../node_modules/next-auth/index';
+import { getServerSession } from 'next-auth';
 import { PrismaAdapter } from '../../node_modules/@next-auth/prisma-adapter/dist/index';
 import { prisma } from './db';
 import GoogleProvider from 'next-auth/providers/google';
@@ -54,4 +55,8 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     }),
   ],
+};
+
+export const getAuthSession = () => {
+  return getServerSession(authOptions);
 };
