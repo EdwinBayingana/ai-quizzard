@@ -2,5 +2,5 @@ import { Button } from '@/components/ui/button';
 import { prisma } from '@/lib/db';
 
 export default function Home() {
-  return <Button>Hellow World</Button>;
+  return <Button>Hello World </Button>;
 }
