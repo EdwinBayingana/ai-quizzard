@@ -3,6 +3,8 @@ import QuizMeCard from '@/components/dashboard/QuizMeCard';
 import { getAuthSession } from '@/lib/nextauth';
 import React from 'react';
 import { redirect } from '../../../node_modules/next/navigation';
+import HotTopicsCard from './HotTopicsCard';
+import RecentActivities from './RecentActivities';
 
 type Props = {};
 
@@ -26,7 +28,10 @@ const page = async (props: Props) => {
         <HistoryCard />
       </div>
 
-      <div className="grid gap-4 mt-4 md:grid-cols-2 lg:grid-cols-7"></div>
+      <div className="grid gap-4 mt-4 md:grid-cols-2 lg:grid-cols-7">
+        <HotTopicsCard />
+        <RecentActivities />
+      </div>
     </main>
   );
 };
