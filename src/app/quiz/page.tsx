@@ -1,9 +1,19 @@
+import { getAuthSession } from '@/lib/nextauth';
 import React from 'react';
+import { redirect } from '../../../node_modules/next/navigation';
 
 type Props = {};
 
-const page = (props: Props) => {
+export const metadata = {
+  title: 'Quiz | Quizmify',
+};
+
+const QuizPage = async (props: Props) => {
+  const session = await getAuthSession();
+  if (!session?.user) {
+    return redirect('/');
+  }
   return <div>page</div>;
 };
 
-export default page;
+export default QuizPage;
