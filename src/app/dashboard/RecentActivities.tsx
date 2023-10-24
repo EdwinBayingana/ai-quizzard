@@ -18,7 +18,7 @@ const RecentActivities = (props: Props) => {
       </CardHeader>
 
       <CardContent className="ma-h-[580px] overflow-scroll">
-        Hitories
+        Histories
       </CardContent>
     </Card>
   );

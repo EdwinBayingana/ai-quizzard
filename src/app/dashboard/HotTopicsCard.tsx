@@ -1,3 +1,4 @@
+import CustomWordCloud from '@/components/CustomWordCloud';
 import {
   Card,
   CardContent,
@@ -19,7 +20,9 @@ const HotTopicsCard = (props: Props) => {
         </CardDescription>
       </CardHeader>
 
-      <CardContent className="pl-2">Word cloud</CardContent>
+      <CardContent className="pl-2">
+        <CustomWordCloud />
+      </CardContent>
     </Card>
   );
 };
