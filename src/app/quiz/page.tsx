@@ -1,3 +1,4 @@
+import QuizCreation from '@/components/QuizCreation';
 import { getAuthSession } from '@/lib/nextauth';
 import React from 'react';
 import { redirect } from '../../../node_modules/next/navigation';
@@ -13,7 +14,7 @@ const QuizPage = async (props: Props) => {
   if (!session?.user) {
     return redirect('/');
   }
-  return <div>page</div>;
+  return <QuizCreation />;
 };
 
 export default QuizPage;
