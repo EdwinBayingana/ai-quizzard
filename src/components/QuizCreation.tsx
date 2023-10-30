@@ -21,6 +21,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+
 import { Button } from './ui/button';
 import { Input } from '@/components/ui/input';
 import { CopyCheck, BookOpen } from 'lucide-react';
@@ -29,6 +30,7 @@ import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
 import { useToast } from '../../src/components/ui/use-toast';
+import LoadingQuestions from './LoadingQuestions';
 
 type Props = {};
 
@@ -60,27 +62,39 @@ const QuizCreation = (props: Props) => {
     },
   });
 
-  function onSubmit(input: Input) {
-    console.log('here onSubmit');
-    getQuestions(
-      {
-        amount: input.amount,
-        topic: input.topic,
-        type: input.type,
-      },
-      {
-        onSuccess: ({ gameId }) => {
-          if (form.getValues('type') == 'open_ended') {
-            router.push(`/play/open-ended/${gameId}`);
-          } else {
-            router.push(`/play/mcq/${gameId}`);
+  const onSubmit = async (data: Input) => {
+    setShowLoader(true);
+    getQuestions(data, {
+      onError: (error) => {
+        setShowLoader(false);
+        if (error instanceof AxiosError) {
+          if (error.response?.status === 500) {
+            toast({
+              title: 'Error',
+              description: 'Something went wrong. Please try again later.',
+              variant: 'destructive',
+            });
           }
-        },
+        }
       },
-    );
-  }
+      onSuccess: ({ gameId }: { gameId: string }) => {
+        setFinishedLoading(true);
+        setTimeout(() => {
+          if (form.getValues('type') === 'mcq') {
+            router.push(`/play/mcq/${gameId}`);
+          } else if (form.getValues('type') === 'open_ended') {
+            router.push(`/play/open-ended/${gameId}`);
+          }
+        }, 2000);
+      },
+    });
+  };
 
   form.watch();
+
+  if (showLoader) {
+    return <LoadingQuestions finished={finishedLoading} />;
+  }
 
   return (
     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
