@@ -165,11 +165,7 @@ const QuizCreation = (props: Props) => {
                   Open Ended
                 </Button>
               </div>
-              <Button
-                disabled={isLoading}
-                type="submit"
-                // className="disabled:opacity-5 disabled:cursor-not-allowed"
-              >
+              <Button disabled={isLoading} type="submit">
                 Submit
               </Button>
             </form>
