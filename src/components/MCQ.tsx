@@ -1,4 +1,5 @@
 'use client';
+
 import { Game, Question } from '@prisma/client';
 import React from 'react';
 import {
@@ -35,7 +36,7 @@ const MCQ = ({ game }: Props) => {
 
   const currentQuestion = React.useMemo(() => {
     return game.questions[questionIndex];
-  }, [questionIndex, game.questions]);
+  }, [questionIndex, game]);
 
   const options = React.useMemo(() => {
     if (!currentQuestion) return [];
@@ -44,6 +45,7 @@ const MCQ = ({ game }: Props) => {
   }, [currentQuestion]);
 
   const { toast } = useToast();
+  //   const toast = useToast();
   const { mutate: checkAnswer, isLoading: isChecking } = useMutation({
     mutationFn: async () => {
       const payload: z.infer<typeof checkAnswerSchema> = {
@@ -220,17 +222,3 @@ const MCQ = ({ game }: Props) => {
 };
 
 export default MCQ;
-
-// 'use client';
-// import React from 'react';
-// import { Game, Question } from '@prisma/client';
-
-// type Props = {
-//   game: Game & { questions: Pick<Question, 'id' | 'options' | 'question'>[] };
-// };
-
-// const MCQ = ({ game }: Props) => {
-//   return <div>MCQ</div>;
-// };
-
-// export default MCQ;
