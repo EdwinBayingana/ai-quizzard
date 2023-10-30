@@ -1,3 +1,4 @@
+import HistoryComponent from '@/components/HistoryComponent';
 import {
   Card,
   CardContent,
@@ -6,10 +7,22 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import React from 'react';
+import { prisma } from '@/lib/db';
+import { getAuthSession } from '@/lib/nextauth';
+import { redirect } from 'next/navigation';
 
 type Props = {};
 
-const RecentActivities = (props: Props) => {
+const RecentActivities = async (props: Props) => {
+  const session = await getAuthSession();
+  if (!session?.user) {
+    return redirect('/');
+  }
+  const games_count = await prisma.game.count({
+    where: {
+      userId: session.user.id,
+    },
+  });
   return (
     <Card className="col-span-4 lg:col-span-3">
       <CardHeader>
@@ -18,7 +31,7 @@ const RecentActivities = (props: Props) => {
       </CardHeader>
 
       <CardContent className="ma-h-[580px] overflow-scroll">
-        Histories
+        <HistoryComponent limit={10} userId={session.user.id} />
       </CardContent>
     </Card>
   );
