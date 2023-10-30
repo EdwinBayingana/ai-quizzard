@@ -61,7 +61,6 @@ const QuizCreation = (props: Props) => {
   });
 
   function onSubmit(input: Input) {
-    console.log('here onSubmit');
     getQuestions(
       {
         amount: input.amount,

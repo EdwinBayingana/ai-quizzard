@@ -1,9 +1,38 @@
+import { getAuthSession } from '@/lib/nextauth';
 import React from 'react';
+import { redirect } from '../../../../../node_modules/next/navigation';
+import { prisma } from '@/lib/db';
+import MCQ from '@/components/MCQ';
 
-type Props = {};
+type Props = {
+  params: {
+    gameId: string;
+  };
+};
 
-const MCQPage = (props: Props) => {
-  return <div>MCQPage</div>;
+const MCQPage = async ({ params: { gameId } }: Props) => {
+  const session = await getAuthSession();
+  if (!session?.user) {
+    return redirect('/');
+  }
+  const game = await prisma.game.findUnique({
+    where: {
+      id: gameId,
+    },
+    include: {
+      questions: {
+        select: {
+          id: true,
+          question: true,
+          options: true,
+        },
+      },
+    },
+  });
+  if (!game || game.gameType === 'open_ended') {
+    return redirect('/quiz');
+  }
+  return <MCQ game />;
 };
 
 export default MCQPage;
