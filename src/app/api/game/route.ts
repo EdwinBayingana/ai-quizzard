@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/db';
 import { getAuthSession } from '@/lib/nextauth';
-import { quizCreationSchema } from '@/schemas/forms/quiz';
+import { quizCreationSchema } from '../../../schemas/form/quiz';
+
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import axios from 'axios';

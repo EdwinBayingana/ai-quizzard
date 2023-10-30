@@ -8,7 +8,8 @@ import {
   CardTitle,
 } from './ui/card';
 import { useForm } from 'react-hook-form';
-import { quizCreationSchema } from '@/schemas/form/quiz';
+import { quizCreationSchema } from '../../src/schemas/form/quiz';
+
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
@@ -24,12 +25,32 @@ import { Button } from './ui/button';
 import { Input } from '@/components/ui/input';
 import { CopyCheck, BookOpen } from 'lucide-react';
 import { Separator } from './ui/separator';
+import { useRouter } from 'next/navigation';
+import { useMutation } from '@tanstack/react-query';
+import axios, { AxiosError } from 'axios';
+import { useToast } from '../../src/components/ui/use-toast';
 
 type Props = {};
 
 type Input = z.infer<typeof quizCreationSchema>;
 
 const QuizCreation = (props: Props) => {
+  const router = useRouter();
+  const [showLoader, setShowLoader] = React.useState(false);
+  const [finishedLoading, setFinishedLoading] = React.useState(false);
+  const { toast } = useToast();
+
+  const { mutate: getQuestions, isLoading } = useMutation({
+    mutationFn: async ({ amount, topic, type }: Input) => {
+      try {
+        const response = await axios.post('/api/game', { amount, topic, type });
+        return response?.data;
+      } catch (error) {
+        console.log('dispatch error:', error);
+      }
+    },
+  });
+
   const form = useForm<Input>({
     resolver: zodResolver(quizCreationSchema),
     defaultValues: {
@@ -40,7 +61,23 @@ const QuizCreation = (props: Props) => {
   });
 
   function onSubmit(input: Input) {
-    alert(JSON.stringify(input, null, 2));
+    console.log('here onSubmit');
+    getQuestions(
+      {
+        amount: input.amount,
+        topic: input.topic,
+        type: input.type,
+      },
+      {
+        onSuccess: ({ gameId }) => {
+          if (form.getValues('type') == 'open_ended') {
+            router.push(`/play/open-ended/${gameId}`);
+          } else {
+            router.push(`/play/mcq/${gameId}`);
+          }
+        },
+      },
+    );
   }
 
   form.watch();
@@ -128,7 +165,13 @@ const QuizCreation = (props: Props) => {
                   Open Ended
                 </Button>
               </div>
-              <Button type="submit">Submit</Button>
+              <Button
+                disabled={isLoading}
+                type="submit"
+                // className="disabled:opacity-5 disabled:cursor-not-allowed"
+              >
+                Submit
+              </Button>
             </form>
           </Form>
         </CardContent>
