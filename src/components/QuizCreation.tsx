@@ -32,11 +32,13 @@ import axios, { AxiosError } from 'axios';
 import { useToast } from '../../src/components/ui/use-toast';
 import LoadingQuestions from './LoadingQuestions';
 
-type Props = {};
+type Props = {
+  topicParam: String;
+};
 
 type Input = z.infer<typeof quizCreationSchema>;
 
-const QuizCreation = (props: Props) => {
+const QuizCreation = ({ topicParam }: Props) => {
   const router = useRouter();
   const [showLoader, setShowLoader] = React.useState(false);
   const [finishedLoading, setFinishedLoading] = React.useState(false);
@@ -57,7 +59,7 @@ const QuizCreation = (props: Props) => {
     resolver: zodResolver(quizCreationSchema),
     defaultValues: {
       amount: 3,
-      topic: '',
+      topic: topicParam,
       type: 'open_ended',
     },
   });

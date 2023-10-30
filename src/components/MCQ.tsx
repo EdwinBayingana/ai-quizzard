@@ -45,7 +45,6 @@ const MCQ = ({ game }: Props) => {
   }, [currentQuestion]);
 
   const { toast } = useToast();
-  //   const toast = useToast();
   const { mutate: checkAnswer, isLoading: isChecking } = useMutation({
     mutationFn: async () => {
       const payload: z.infer<typeof checkAnswerSchema> = {
