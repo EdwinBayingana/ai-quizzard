@@ -27,7 +27,9 @@ const RecentActivities = async (props: Props) => {
     <Card className="col-span-4 lg:col-span-3">
       <CardHeader>
         <CardTitle className="text-2xl font-bold">Recent Activities</CardTitle>
-        <CardDescription>You have played a total of 7 games.</CardDescription>
+        <CardDescription>
+          You have played a total of {games_count} games.
+        </CardDescription>
       </CardHeader>
 
       <CardContent className="ma-h-[580px] overflow-scroll">
