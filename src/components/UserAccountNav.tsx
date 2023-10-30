@@ -13,19 +13,25 @@ import { signOut } from 'next-auth/react';
 import { Button } from './ui/button';
 import { LogOut } from 'lucide-react';
 import UserAvatar from './UserAvatar';
+import { useTheme } from 'next-themes';
 
 type Props = {
   user: Pick<User, 'name' | 'image' | 'email'>;
 };
 
 const UserAccountNav = ({ user }: Props) => {
+  const theme = useTheme();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
         {/* user avatar */}
         <UserAvatar user={user} />
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="bg-white" align="end">
+      <DropdownMenuContent
+        className={`${theme.them == 'light' ? 'bg-white' : 'bg-black'}`}
+        align="end"
+      >
         <div className="flex items-center justify-start gap-2 p-2">
           <div className="flex flex-col space-y-1 leading-none">
             {user.name && <p className="font-medium">{user.name}</p>}
@@ -40,7 +46,7 @@ const UserAccountNav = ({ user }: Props) => {
         <DropdownMenuSeparator />
 
         <DropdownMenuItem asChild>
-          <Link href="/">I see...</Link>
+          <Link href="/">Home</Link>
         </DropdownMenuItem>
 
         <DropdownMenuSeparator />
