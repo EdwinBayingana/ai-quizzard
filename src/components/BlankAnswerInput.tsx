@@ -16,7 +16,7 @@ const BlankAnswerInput = ({ answer, setBlankAnswer }: Props) => {
       return_changed_case: false,
       remove_duplicates: false,
     });
-    // mix the keywords and pick 2
+    // No we mix the keywords and pick 2
     const shuffled = words.sort(() => 0.5 - Math.random());
     return shuffled.slice(0, 2);
   }, [answer]);
@@ -32,7 +32,7 @@ const BlankAnswerInput = ({ answer, setBlankAnswer }: Props) => {
   return (
     <div className="flex justify-start w-full mt-4">
       <h1 className="text-xl font-semibold">
-        {/* replace the blanks with input elements */}
+        {/* This is to replace the blanks with input elements */}
         {answerWithBlanks.split(blank).map((part, index) => {
           return (
             <React.Fragment key={index}>
