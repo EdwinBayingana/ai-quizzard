@@ -1,0 +1,15 @@
+{
+  "/_not-found": "app/_not-found.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/page": "app/page.js",
+  "/history/page": "app/history/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/quiz/page": "app/quiz/page.js",
+  "/api/checkAnswer/route": "app/api/checkAnswer/route.js",
+  "/api/game/route": "app/api/game/route.js",
+  "/api/questions/route": "app/api/questions/route.js",
+  "/statistics/[gameId]/page": "app/statistics/[gameId]/page.js",
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
+  "/play/mcq/[gameId]/page": "app/play/mcq/[gameId]/page.js",
+  "/play/open-ended/[gameId]/page": "app/play/open-ended/[gameId]/page.js"
+}
